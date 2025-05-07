@@ -12,10 +12,9 @@ A responsive multi-step form where users can:
 - **Validation for each form step**
 - **Drag-and-drop** functionality for reordering skills (using DnD Kit)
 - **Local Storage persistence**
-- **Pixel-perfect styling** matching Figma (provide design link if available)
 
 ## Tech Stack
-- Next.js (without TypeScript)
+- Next.js
 - Tailwind CSS
 - React DnD Kit
 
