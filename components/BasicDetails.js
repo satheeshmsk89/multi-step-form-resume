@@ -15,7 +15,12 @@ export default function BasicDetails({ nextStep, prevStep }) {
     phone: formData.phone || "",
   });
 
-  const validate = () => {
+  const handleChange = (field, value) => {
+    setLocalData((prev) => ({ ...prev, [field]: value }));
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
+  useEffect(() => {
     const newErrors = {};
 
     if (!localData.name || localData.name.length < 3) {
@@ -26,25 +31,28 @@ export default function BasicDetails({ nextStep, prevStep }) {
       newErrors.email = "Enter valid email id";
     }
 
-    // Allow international phone numbers with + and 10-15 digits
     if (!/^\+\d{10,15}$/.test("+" + localData.phone)) {
       newErrors.phone = "Enter valid phone number";
     }
 
-    return newErrors;
-  };
-
-  const handleChange = (field, value) => {
-    setLocalData((prev) => ({ ...prev, [field]: value }));
-    setTouched((prev) => ({ ...prev, [field]: true }));
-  };
-
-  useEffect(() => {
-    setErrors(validate());
+    setErrors(newErrors);
   }, [localData]);
 
   const handleNext = () => {
-    const currentErrors = validate();
+    const currentErrors = {};
+
+    if (!localData.name || localData.name.length < 3) {
+      currentErrors.name = "Min length- 3 characters.";
+    }
+
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(localData.email)) {
+      currentErrors.email = "Enter valid email id";
+    }
+
+    if (!/^\+\d{10,15}$/.test("+" + localData.phone)) {
+      currentErrors.phone = "Enter valid phone number";
+    }
+
     if (Object.keys(currentErrors).length === 0) {
       setFormData((prev) => ({ ...prev, ...localData }));
       nextStep();
@@ -104,9 +112,9 @@ export default function BasicDetails({ nextStep, prevStep }) {
               width: "100%",
               height: "52px",
               border: "none",
-              borderRadius: "0.375rem", 
-              backgroundColor: "#f9f9f9", 
-              paddingLeft: "60px", 
+              borderRadius: "0.375rem",
+              backgroundColor: "#f9f9f9",
+              paddingLeft: "60px",
               fontSize: "14px",
               boxShadow: "none",
             }}

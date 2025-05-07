@@ -1,9 +1,12 @@
 import Header from "./Header";
+import Head from "next/head";
 
 export default function Layout({ children }) {
   return (
     <>
-      <head><title>Multi Step Form</title></head>
+      <Head>
+      <title>Multi Step Form</title>
+      </Head>
       <Header />
       <main>{children}</main>
     </>
